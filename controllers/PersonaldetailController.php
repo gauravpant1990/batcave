@@ -3,16 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\KdhUser;
-use app\models\KdhUserSearch;
+use app\models\Personaldetail;
+use app\models\PersonaldetailSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * KdhUserController implements the CRUD actions for KdhUser model.
+ * PersonaldetailController implements the CRUD actions for Personaldetail model.
  */
-class KdhUserController extends Controller
+class PersonaldetailController extends Controller
 {
     public function behaviors()
     {
@@ -27,12 +27,12 @@ class KdhUserController extends Controller
     }
 
     /**
-     * Lists all KdhUser models.
+     * Lists all Personaldetail models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new KdhUserSearch();
+        $searchModel = new PersonaldetailSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -42,29 +42,28 @@ class KdhUserController extends Controller
     }
 
     /**
-     * Displays a single KdhUser model.
-     * @param integer $iduser
-     * @param integer $idpersonalDetails
+     * Displays a single Personaldetail model.
+     * @param integer $id
      * @return mixed
      */
-    public function actionView($iduser, $idpersonalDetails)
+    public function actionView($id)
     {
         return $this->render('view', [
-            'model' => $this->findModel($iduser, $idpersonalDetails),
+            'model' => $this->findModel($id),
         ]);
     }
 
     /**
-     * Creates a new KdhUser model.
+     * Creates a new Personaldetail model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new KdhUser();
+        $model = new Personaldetail();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'iduser' => $model->iduser, 'idpersonalDetails' => $model->idpersonalDetails]);
+            return $this->redirect(['view', 'id' => $model->idpersonalDetail]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -73,18 +72,17 @@ class KdhUserController extends Controller
     }
 
     /**
-     * Updates an existing KdhUser model.
+     * Updates an existing Personaldetail model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $iduser
-     * @param integer $idpersonalDetails
+     * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($iduser, $idpersonalDetails)
+    public function actionUpdate($id)
     {
-        $model = $this->findModel($iduser, $idpersonalDetails);
+        $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'iduser' => $model->iduser, 'idpersonalDetails' => $model->idpersonalDetails]);
+            return $this->redirect(['view', 'id' => $model->idpersonalDetail]);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -93,42 +91,31 @@ class KdhUserController extends Controller
     }
 
     /**
-     * Deletes an existing KdhUser model.
+     * Deletes an existing Personaldetail model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $iduser
-     * @param integer $idpersonalDetails
+     * @param integer $id
      * @return mixed
      */
-    public function actionDelete($iduser, $idpersonalDetails)
+    public function actionDelete($id)
     {
-        $this->findModel($iduser, $idpersonalDetails)->delete();
+        $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
     }
 
     /**
-     * Finds the KdhUser model based on its primary key value.
+     * Finds the Personaldetail model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $iduser
-     * @param integer $idpersonalDetails
-     * @return KdhUser the loaded model
+     * @param integer $id
+     * @return Personaldetail the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($iduser, $idpersonalDetails)
+    protected function findModel($id)
     {
-        if (($model = KdhUser::findOne(['iduser' => $iduser, 'idpersonalDetails' => $idpersonalDetails])) !== null) {
+        if (($model = Personaldetail::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
-	
-	/*public function beforeAction(){
-		if(Yii::$app->user->isGuest)
-		{
-			$this->redirect(array('/'));
-		}
-		var_dump(Yii::$app->user->id);
-		return true;
-	}*/
 }

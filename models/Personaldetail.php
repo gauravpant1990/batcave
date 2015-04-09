@@ -5,9 +5,9 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "personaldetails".
+ * This is the model class for table "personaldetail".
  *
- * @property integer $idpersonalDetails
+ * @property integer $idpersonalDetail
  * @property integer $iduser
  * @property string $email
  * @property double $ctc
@@ -17,14 +17,14 @@ use Yii;
  *
  * @property User $iduser0
  */
-class Personaldetails extends \yii\db\ActiveRecord
+class Personaldetail extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'personaldetails';
+        return 'personaldetail';
     }
 
     /**
@@ -47,7 +47,7 @@ class Personaldetails extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'idpersonalDetails' => Yii::t('app', 'Idpersonal Details'),
+            'idpersonalDetail' => Yii::t('app', 'Idpersonal Detail'),
             'iduser' => Yii::t('app', 'Iduser'),
             'email' => Yii::t('app', 'Email'),
             'ctc' => Yii::t('app', 'Ctc'),
