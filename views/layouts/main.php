@@ -19,6 +19,19 @@ AppAsset::register($this);
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+	<script type="text/javascript" src="http://platform.linkedin.com/in.js">
+		api_key: 750f0hg4dgw4kx
+		authorize: true
+	</script>
+	<script>
+		function LI() 
+		{
+			 IN.API.Profile("me").fields(["id"]).result(function(result) {
+				var id = result.values[0].id;
+				window.location = '/site/login';	
+			 });
+		}
+	</script>
 </head>
 <body>
 
@@ -39,7 +52,8 @@ AppAsset::register($this);
                     ['label' => 'About', 'url' => ['/site/about']],
                     ['label' => 'Contact', 'url' => ['/site/contact']],
                     Yii::$app->user->isGuest ?
-                        ['label' => 'Login', 'url' => ['/site/login']] :
+                        //['label' => 'Login', /*'url' => ['/site/login'],*/ 'options'=> ['onclick' => 'IN.User.authorize(LI)']] :
+						(yii\authclient\widgets\AuthChoice::widget(['baseAuthUrl' => ['site/auth'],'popupMode' => false,]))://
                         ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
                             'url' => ['/site/logout'],
                             'linkOptions' => ['data-method' => 'post']],
@@ -47,7 +61,6 @@ AppAsset::register($this);
             ]);
             NavBar::end();
         ?>
-
         <div class="container">
             <?= Breadcrumbs::widget([
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],

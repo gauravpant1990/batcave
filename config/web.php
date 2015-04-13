@@ -42,6 +42,22 @@ $config = [
             ],
         ],
         'db' => require(__DIR__ . '/db.php'),
+		'authClientCollection' => [
+			'class' => 'yii\authclient\Collection',
+			'clients' => [
+				'linkedin' => [
+					'class' => 'yii\authclient\clients\LinkedIn',
+					'clientId' => '750f0hg4dgw4kx',
+					'clientSecret' => 'E33E3a10FeqkmVZu',
+					//'returnUrl' => 'http://localhost/',
+				],
+				// etc.
+			],
+		],
+		/*'response' => [
+			'format' => yii\web\Response::FORMAT_JSON,
+			'charset' => 'UTF-8',
+		]*/
     ],
     'params' => $params,
 ];
