@@ -49,7 +49,13 @@ $config = [
 					'class' => 'yii\authclient\clients\LinkedIn',
 					'clientId' => '750f0hg4dgw4kx',
 					'clientSecret' => 'E33E3a10FeqkmVZu',
-					//'returnUrl' => 'http://localhost/',
+					'accessToken' => [
+						'class'=>'yii\authclient\OAuthToken',
+						'token'=>'863e0522-b6fd-4084-bb76-02d427efc641',
+						'tokenSecret'=>'ae62cd43-b2c4-45d9-bbd6-0dbb26c589f5',
+					],
+					//'authUrl' => 'https://www.linkedin.com/uas/oauth/authorize',
+					//'returnUrl' => 'http://localhost/site/auth',
 				],
 				// etc.
 			],

@@ -28,7 +28,7 @@ AppAsset::register($this);
 		{
 			 IN.API.Profile("me").fields(["id"]).result(function(result) {
 				var id = result.values[0].id;
-				window.location = '/site/login';	
+				window.location = '/site/login?id='+id;	
 			 });
 		}
 	</script>
@@ -54,7 +54,7 @@ AppAsset::register($this);
                     Yii::$app->user->isGuest ?
                         //['label' => 'Login', /*'url' => ['/site/login'],*/ 'options'=> ['onclick' => 'IN.User.authorize(LI)']] :
 						(yii\authclient\widgets\AuthChoice::widget(['baseAuthUrl' => ['site/auth'],'popupMode' => false,]))://
-                        ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
+                        ['label' => 'Logout (' . Yii::$app->user->identity->firstName . ')',
                             'url' => ['/site/logout'],
                             'linkOptions' => ['data-method' => 'post']],
                 ],

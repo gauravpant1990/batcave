@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use app\models\User;
 
 /**
  * This is the model class for table "user".
@@ -26,10 +27,7 @@ use Yii;
  * @property UserSkill[] $userSkills
  */
 class KdhUser extends \yii\db\ActiveRecord
-{
-    /**
-     * @inheritdoc
-     */
+{	 
     public static function tableName()
     {
         return 'user';
