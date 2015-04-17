@@ -64,9 +64,8 @@ class KdhUserSearch extends KdhUser
 
         $query->andFilterWhere(['like', 'firstName', $this->firstName])
             ->andFilterWhere(['like', 'lastName', $this->lastName])
-            ->andFilterWhere(['like', 'linkedInID', $this->linkedInID])
+            ->andFilterWhere(['like', 'linkedInID', $params['linkedInID']])//$this->linkedInID]
             ->andFilterWhere(['like', 'profileURL', $this->profileURL]);
-
         return $dataProvider;
     }
 }

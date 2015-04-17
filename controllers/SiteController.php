@@ -10,9 +10,11 @@ use app\models\LoginForm;
 use app\models\ContactForm;
 use yii\authclient\AuthAction;
 use yii\authclient\OAuth2;
+use app\models\User;
 
 class SiteController extends Controller
 {
+	public $successUrl;
     public function behaviors()
     {
         return [
@@ -49,6 +51,7 @@ class SiteController extends Controller
 			'auth' => [
                 'class' => 'yii\authclient\AuthAction',
                 'successCallback' => [$this, 'successCallback'],
+				'successUrl' => $this->successUrl
             ],
         ];
     }
@@ -61,8 +64,11 @@ class SiteController extends Controller
     public function actionLogin()
     {
 		//IN.ENV.auth.oauth_token
-		var_dump($_GET,$_POST);
-		Yii::$app->user->loginByAccessToken('123',get_class($this));
+		//$search = new KdhUserSearch();
+		//$user = $search->search(['linkedInID' => $_GET['id']]);
+		//var_dump($user);
+		
+		Yii::$app->user->loginByAccessToken($_GET['id'],get_class($this));return;
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
@@ -106,18 +112,20 @@ class SiteController extends Controller
 	public function successCallback($client)
     {
 		$attributes = $client->getUserAttributes();
-		echo "in the function";
-		var_dump($attributes);return;
-       
-        $auth = Auth::find()->where([
-            'source' => $client->getId(),
-            'source_id' => $attributes['id'],
+        $auth = User::find()->where([
+            //'source' => $client->getId(),
+            'linkedInID' => $attributes['id'],
         ])->one();
+		/*KdhUser::find()->where([
+            //'source' => $client->getId(),
+            'linkedInID' => $attributes['id'],
+        ])->one();*/
+		//var_dump($auth->toArray());return;
         
         if (Yii::$app->user->isGuest) {
             if ($auth) { // login
-                $user = $auth->user;
-                Yii::$app->user->login($user);
+                //$user = $auth->user;
+                Yii::$app->user->login($auth,3600*24*30);
             } else { // signup
                 if (isset($attributes['email']) && isset($attributes['username']) && User::find()->where(['email' => $attributes['email']])->exists()) {
                     Yii::$app->getSession()->setFlash('error', [
