@@ -53,7 +53,9 @@ AppAsset::register($this);
                     ['label' => 'Contact', 'url' => ['/site/contact']],
                     Yii::$app->user->isGuest ?
                         //['label' => 'Login', /*'url' => ['/site/login'],*/ 'options'=> ['onclick' => 'IN.User.authorize(LI)']] :
-						(yii\authclient\widgets\AuthChoice::widget(['baseAuthUrl' => ['site/auth'],'popupMode' => false,]))://
+						("<li>".yii\authclient\widgets\AuthChoice::widget(['baseAuthUrl' => ['site/auth'],
+							'popupMode' => false,
+							"options"=>['style'=>"position:relative;overflow:hidden;top:2px;margin-left:7px"]])."</li>"):
                         ['label' => 'Logout (' . Yii::$app->user->identity->firstName . ')',
                             'url' => ['/site/logout'],
                             'linkOptions' => ['data-method' => 'post']],
@@ -75,7 +77,8 @@ AppAsset::register($this);
             <p class="pull-right"><?= Yii::powered() ?></p>
         </div>
     </footer>
-
+<?php echo "<pre>"; var_dump(Yii::$app->session->get('linkedInAttributes'));
+//var_dump(Yii::$app->kdhUser->findOne(Yii::$app->user->id)->personaldetail); ?>
 <?php $this->endBody() ?>
 </body>
 </html>

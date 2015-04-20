@@ -39,7 +39,7 @@ class KdhUser extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['firstName', 'linkedInID', 'profileURL', 'numConnections', 'idpersonalDetails'], 'required'],
+            [['firstName', 'linkedInID', 'profileURL', 'numConnections'], 'required'],//, 'idpersonalDetails'
             [['numConnections', 'idpersonalDetails'], 'integer'],
             [['signUpTime'], 'safe'],
             [['firstName', 'lastName', 'linkedInID', 'profileURL'], 'string', 'max' => 45],
@@ -84,9 +84,9 @@ class KdhUser extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPersonaldetails()
+    public function getPersonaldetail()
     {
-        return $this->hasMany(Personaldetails::className(), ['iduser' => 'iduser']);
+        return $this->hasMany(Personaldetail::className(), ['iduser' => 'iduser']);
     }
 
     /**

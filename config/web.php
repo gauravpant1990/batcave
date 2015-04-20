@@ -22,6 +22,9 @@ $config = [
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
         ],
+		'kdhUser' => [
+			'class' => 'app\models\KdhUser',
+		],
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],

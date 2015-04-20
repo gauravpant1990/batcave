@@ -11,6 +11,8 @@ use app\models\ContactForm;
 use yii\authclient\AuthAction;
 use yii\authclient\OAuth2;
 use app\models\User;
+use app\models\KdhUser;
+use app\models\Personaldetail;
 
 class SiteController extends Controller
 {
@@ -58,7 +60,7 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        return $this->render('index');
+		return $this->render('index');
     }
 
     public function actionLogin()
@@ -116,33 +118,43 @@ class SiteController extends Controller
             //'source' => $client->getId(),
             'linkedInID' => $attributes['id'],
         ])->one();
-		/*KdhUser::find()->where([
-            //'source' => $client->getId(),
-            'linkedInID' => $attributes['id'],
-        ])->one();*/
-		//var_dump($auth->toArray());return;
-        
+        Yii::$app->session->set('linkedInAttributes',$attributes);
         if (Yii::$app->user->isGuest) {
             if ($auth) { // login
                 //$user = $auth->user;
                 Yii::$app->user->login($auth,3600*24*30);
             } else { // signup
-                if (isset($attributes['email']) && isset($attributes['username']) && User::find()->where(['email' => $attributes['email']])->exists()) {
+                if (isset($attributes['email']) && Personaldetail::find()->where(['email' => $attributes['email']])->exists()) {
                     Yii::$app->getSession()->setFlash('error', [
                         Yii::t('app', "User with the same email as in {client} account already exists but isn't linked to it. Login using email first to link it.", ['client' => $client->getTitle()]),
                     ]);
                 } else {
-                    $password = Yii::$app->security->generateRandomString(6);
+                    //$password = Yii::$app->security->generateRandomString(6);
+					$details = new Personaldetail([
+						'email' => $attributes['email'],
+					]);
+					//$details->save();
                     $user = new User([
-                        'username' => $attributes['login'],
-                        'email' => $attributes['email'],
-                        'password' => $password,
+                        //'username' => $attributes['login'],
+                        'firstName' => $attributes['first-name'],
+                        'lastName' => $attributes['last-name'],
+						'linkedInID' => $attributes['id'],
+						'profileURL' => $attributes['public-profile-url'],
+						'numConnections' => $attributes['num-connections']
                     ]);
-                    $user->generateAuthKey();
-                    $user->generatePasswordResetToken();
-                    $transaction = $user->getDb()->beginTransaction();
+					//$user->link('personaldetail',$details);
+                    //$user->generateAuthKey();
+                    //$user->generatePasswordResetToken();
+                    //$transaction = $user->getDb()->beginTransaction();
                     if ($user->save()) {
-                        $auth = new Auth([
+						$details->link('user',$user);
+						if($details->save())
+						{
+							return $this->redirect(['personaldetail/update', 'model'=>$details ,'user' => $user,'id'=>$details->idpersonalDetail]);
+							$this->renderFile('views/kdh-user/create.php', $params = ['user'=>$user] );
+							Yii::$app->user->login($user,3600*24*30);
+						}						
+                       /* $auth = new Auth([
                             'user_id' => $user->id,
                             'source' => $client->getId(),
                             'source_id' => (string)$attributes['id'],
@@ -152,7 +164,7 @@ class SiteController extends Controller
                             Yii::$app->user->login($user);
                         } else {
                             print_r($auth->getErrors());
-                        }
+                        }*/
                     } else {
                         print_r($user->getErrors());
                     }

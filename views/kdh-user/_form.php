@@ -24,7 +24,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'signUpTime')->textInput() ?>
 
-    <?= $form->field($model, 'idpersonalDetails')->textInput() ?>
+    <?= $form->field($model, 'idpersonaldetail')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
