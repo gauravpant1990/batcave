@@ -5,6 +5,7 @@ use yii\base\NotSupportedException;
 use yii\db\ActiveRecord;
 use yii\helpers\Security;
 use yii\web\IdentityInterface;
+use Yii;
 
 //class User extends \yii\base\Object implements \yii\web\IdentityInterface
 class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
@@ -20,8 +21,8 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function rules()
     {
         return [
-            [['firstName', 'linkedInID', 'profileURL', 'numConnections', 'idpersonalDetails'], 'required'],
-            [['numConnections', 'idpersonalDetails'], 'integer'],
+            [['firstName', 'linkedInID', 'profileURL', 'numConnections'], 'required'],//, 'idpersonaldetail'
+            [['numConnections', 'idpersonaldetail'], 'integer'],
             [['signUpTime'], 'safe'],
             [['firstName', 'lastName', 'linkedInID', 'profileURL'], 'string', 'max' => 45],
             [['linkedInID'], 'unique'],
@@ -42,7 +43,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             'profileURL' => Yii::t('app', 'Profile Url'),
             'numConnections' => Yii::t('app', 'Num Connections'),
             'signUpTime' => Yii::t('app', 'Sign Up Time'),
-            'idpersonalDetails' => Yii::t('app', 'Idpersonal Details'),
+            'idpersonaldetail' => Yii::t('app', 'Idpersonal Details'),
         ];
     }
      /** INCLUDE USER LOGIN VALIDATION FUNCTIONS**/
@@ -162,5 +163,66 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+    }
+	
+	 public function getEducations()
+    {
+        return $this->hasMany(Education::className(), ['iduser' => 'iduser']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getJobs()
+    {
+        return $this->hasMany(Job::className(), ['iduser' => 'iduser']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPersonaldetail()
+    {
+        return $this->hasMany(Personaldetail::className(), ['iduser' => 'iduser']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSummaries()
+    {
+        return $this->hasMany(Summary::className(), ['iduser' => 'iduser']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserIndustries()
+    {
+        return $this->hasMany(UserIndustry::className(), ['iduser' => 'iduser']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserLocations()
+    {
+        return $this->hasMany(UserLocation::className(), ['iduser' => 'iduser']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserSearches()
+    {
+        return $this->hasMany(UserSearch::className(), ['iduser' => 'iduser']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserSkills()
+    {
+        return $this->hasMany(UserSkill::className(), ['iduser' => 'iduser']);
     }
 }

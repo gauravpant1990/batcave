@@ -8,6 +8,7 @@ use app\models\PersonaldetailSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\models\User;
 
 /**
  * PersonaldetailController implements the CRUD actions for Personaldetail model.
@@ -80,9 +81,18 @@ class PersonaldetailController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
+		//var_dump(Yii::$app->request->post());return;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idpersonalDetail]);
+			if(Yii::$app->user->isGuest)
+			{
+				$user = User::findOne($model->iduser);
+				Yii::$app->user->login($user,3600*24*30);
+				$this->goHome();
+			}
+			else
+			{
+				return $this->redirect(['view', 'id' => $model->idpersonalDetail]);
+			}
         } else {
             return $this->render('update', [
                 'model' => $model,

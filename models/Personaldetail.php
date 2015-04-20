@@ -34,8 +34,8 @@ class Personaldetail extends \yii\db\ActiveRecord
     {
         return [
             [['iduser'], 'required'],
-            [['iduser', 'phoneNumber'], 'integer'],
-            [['ctc', 'monthlySalary'], 'number'],
+            [['iduser'], 'integer'],
+            [['ctc', 'monthlySalary', 'phoneNumber'], 'number'],
             [['email', 'currency'], 'string', 'max' => 45],
             [['iduser'], 'unique']
         ];
@@ -60,7 +60,7 @@ class Personaldetail extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getIduser0()
+    public function getUser()
     {
         return $this->hasOne(User::className(), ['iduser' => 'iduser']);
     }
