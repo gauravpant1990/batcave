@@ -24,7 +24,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             [['firstName', 'linkedInID', 'profileURL', 'numConnections'], 'required'],//, 'idpersonaldetail'
             [['numConnections', 'idpersonaldetail'], 'integer'],
             [['signUpTime'], 'safe'],
-            [['firstName', 'lastName', 'linkedInID', 'profileURL'], 'string', 'max' => 45],
+            [['firstName', 'lastName', 'linkedInID'], 'string', 'max' => 45],//, 'profileURL'
             [['linkedInID'], 'unique'],
             [['profileURL'], 'unique']
         ];
