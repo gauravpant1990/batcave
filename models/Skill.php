@@ -30,7 +30,8 @@ class Skill extends \yii\db\ActiveRecord
     {
         return [
             [['title'], 'required'],
-            [['title'], 'string', 'max' => 45]
+            [['title'], 'string', 'max' => 45],
+			[['title'], 'unique']
         ];
     }
 
@@ -56,8 +57,33 @@ class Skill extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUserSkills()
+    public function getUsers()//Skills
     {
-        return $this->hasMany(UserSkill::className(), ['idskill' => 'idskill']);
+		return $this->hasMany(User::className(), ['iduser' => 'iduser'])->viaTable('user_skill', ['idskill' => 'idskill']);
+        //return $this->hasMany(UserSkill::className(), ['idskill' => 'idskill']);
     }
+	
+	public function addSkill()
+	{
+		$model = $this->findOne(['title'=>$this->title]);
+		if($model!=null)
+		{
+			return $model;
+			/*$this->idskill = $model->idskill;
+			$this->title = $model->title;*/
+		}
+		else{
+			$this->save();
+		}
+	}
+	
+	/*public function beforeSave($insert)
+	{
+		parent::beforeSave($insert);
+		if($this->findOne(['title'=>$this->title])!=null) {
+			 return false;
+		} else {
+			return true;
+		}
+	}*/
 }

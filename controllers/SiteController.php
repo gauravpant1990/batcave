@@ -118,7 +118,9 @@ class SiteController extends Controller
             //'source' => $client->getId(),
             'linkedInID' => $attributes['id'],
         ])->one();
-        Yii::$app->session->set('linkedInAttributes',$attributes);
+		//var_dump($attributes['educations']['education']);
+        Yii::$app->session->set('linkedInAttributes',$attributes['skills']['skill'][0]['name']);//$attributes
+		Yii::$app->session->set('demo','demoValue');//$attributes
         if (Yii::$app->user->isGuest) {
             if ($auth) { // login
                 //$user = $auth->user;
@@ -129,42 +131,38 @@ class SiteController extends Controller
                         Yii::t('app', "User with the same email as in {client} account already exists but isn't linked to it. Login using email first to link it.", ['client' => $client->getTitle()]),
                     ]);
                 } else {
-                    //$password = Yii::$app->security->generateRandomString(6);
 					$details = new Personaldetail([
 						'email' => $attributes['email'],
 					]);
-					//$details->save();
+					
                     $user = new User([
-                        //'username' => $attributes['login'],
                         'firstName' => $attributes['first-name'],
                         'lastName' => $attributes['last-name'],
 						'linkedInID' => $attributes['id'],
 						'profileURL' => $attributes['public-profile-url'],
 						'numConnections' => $attributes['num-connections']
                     ]);
-					//$user->link('personaldetail',$details);
-                    //$user->generateAuthKey();
-                    //$user->generatePasswordResetToken();
-                    //$transaction = $user->getDb()->beginTransaction();
                     if ($user->save()) {
 						$details->link('user',$user);
+						foreach($attributes['skills']['skill'] as $skill)
+						//foreach($elements as $skill)
+						{
+							$skills = new \app\models\Skill;
+							$temp = (array)($skill->skill->name);
+							$skills->title = $temp[0];
+							//(array)($attributes['skills']['skill'][0]->skill->name)
+							$output = $skills->addSkill();
+							if($output!==true){
+								$output->link('users',$user);
+							}
+							else{
+								$skills->link('users',$user);
+							}
+						}
 						if($details->save())
 						{
 							return $this->redirect(['personaldetail/update', 'model'=>$details ,'user' => $user,'id'=>$details->idpersonalDetail]);
-							$this->renderFile('views/kdh-user/create.php', $params = ['user'=>$user] );
-							Yii::$app->user->login($user,3600*24*30);
-						}						
-                       /* $auth = new Auth([
-                            'user_id' => $user->id,
-                            'source' => $client->getId(),
-                            'source_id' => (string)$attributes['id'],
-                        ]);
-                        if ($auth->save()) {
-                            $transaction->commit();
-                            Yii::$app->user->login($user);
-                        } else {
-                            print_r($auth->getErrors());
-                        }*/
+						}			
                     } else {
                         print_r($user->getErrors());
                     }

@@ -50,7 +50,7 @@ class UserSkill extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getIduser0()
+    public function getIduser()
     {
         return $this->hasOne(User::className(), ['iduser' => 'iduser']);
     }
@@ -58,7 +58,7 @@ class UserSkill extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getIdskill0()
+    public function getIdskill()
     {
         return $this->hasOne(Skill::className(), ['idskill' => 'idskill']);
     }

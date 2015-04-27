@@ -221,8 +221,9 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUserSkills()
+    public function getSkills()//User
     {
-        return $this->hasMany(UserSkill::className(), ['iduser' => 'iduser']);
+		return $this->hasMany(Skill::className(), ['idskill' => 'idskill'])->viaTable('user_skill', ['iduser' => 'iduser']);
+        //return $this->hasMany(UserSkill::className(), ['iduser' => 'iduser']);
     }
 }
