@@ -77,7 +77,7 @@ AppAsset::register($this);
             <p class="pull-right"><?= Yii::powered() ?></p>
         </div>
     </footer>
-<?php echo "<pre>"; var_dump(Yii::$app->session->get('demo'));//var_dump(Yii::$app->session->get('linkedInAttributes'));
+<?php //echo "<pre>"; var_dump(Yii::$app->session->get('linkedInAttributes'));var_dump(Yii::$app->session->get('linkedInAttributes'));
 //var_dump(Yii::$app->kdhUser->findOne(Yii::$app->user->id)->personaldetail); ?>
 <?php $this->endBody() ?>
 </body>

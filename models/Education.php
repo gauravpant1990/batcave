@@ -70,7 +70,7 @@ class Education extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getIduser0()
+    public function getUser()
     {
         return $this->hasOne(User::className(), ['iduser' => 'iduser']);
     }
@@ -94,8 +94,60 @@ class Education extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getIdschool0()
+    public function getSchool()
     {
         return $this->hasOne(School::className(), ['idschool' => 'idschool']);
     }
+	
+	public function addEducations($educationsLinkedIn, $count, $iduser)
+	{
+		if($count==1)
+		{
+			$educationsLinkedIn[0] = $educationsLinkedIn;
+		}
+		foreach($educationsLinkedIn as $key=>$education)
+		{
+			$model = new Education();
+			$temp = (array)($education);
+			
+			if(!empty($temp['school-name']))
+			{
+				$school = new \app\models\School;
+				$school->title = $temp['school-name'];
+				$school->addSchool();
+				$model->idschool = $school->idschool;
+			}
+			
+			if(!empty($temp['degree']))
+			{
+				$degree = new \app\models\Degree;
+				$degree->title = $temp['degree'];
+				$degree->addDegree();
+				$model->iddegree = $degree->iddegree;
+			}
+			
+			if(!empty($temp['end-date']))
+			{
+				$passYear = (array)$temp['end-date'];
+				$passYear = $passYear['year'];
+				$model->passYear = $passYear;
+			}
+			
+			if(!empty($temp['field-of-study']))
+			{
+				$fieldOfStudy = new \app\models\Fieldofstudy;
+				$fieldOfStudy->title = $temp['field-of-study'];
+				$fieldOfStudy->addFieldofstudy();
+				$model->idfieldOfStudy = $fieldOfStudy->idfieldOfStudy;
+			}
+			
+			
+			if($key==0) $isFinal = 1;
+			else $isFinal = 0;
+			
+			$model->iduser = $iduser;
+			$model->isFinal = $isFinal;
+			$model->save();
+		}
+	}
 }

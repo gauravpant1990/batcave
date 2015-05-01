@@ -114,16 +114,13 @@ class SiteController extends Controller
 	public function successCallback($client)
     {
 		$attributes = $client->getUserAttributes();
+		var_dump($attributes['location']);return;
         $auth = User::find()->where([
-            //'source' => $client->getId(),
             'linkedInID' => $attributes['id'],
         ])->one();
-		//var_dump($attributes['educations']['education']);
-        Yii::$app->session->set('linkedInAttributes',$attributes['skills']['skill'][0]['name']);//$attributes
-		Yii::$app->session->set('demo','demoValue');//$attributes
+        Yii::$app->session->set('linkedInAttributes',($attributes['educations']['@attributes']['total']));
         if (Yii::$app->user->isGuest) {
             if ($auth) { // login
-                //$user = $auth->user;
                 Yii::$app->user->login($auth,3600*24*30);
             } else { // signup
                 if (isset($attributes['email']) && Personaldetail::find()->where(['email' => $attributes['email']])->exists()) {
@@ -144,21 +141,11 @@ class SiteController extends Controller
                     ]);
                     if ($user->save()) {
 						$details->link('user',$user);
-						foreach($attributes['skills']['skill'] as $skill)
-						//foreach($elements as $skill)
-						{
-							$skills = new \app\models\Skill;
-							$temp = (array)($skill->skill->name);
-							$skills->title = $temp[0];
-							//(array)($attributes['skills']['skill'][0]->skill->name)
-							$output = $skills->addSkill();
-							if($output!==true){
-								$output->link('users',$user);
-							}
-							else{
-								$skills->link('users',$user);
-							}
-						}
+						$skills = new \app\models\Skill;
+						$skills->addSkills($attributes['skills']['skill'], $user);
+						$educationCount = $attributes['educations']['@attributes']['total'];
+						$education = new \app\models\Education;
+						$education->addEducations($attributes['educations']['education'],(int)$educationCount,$user->iduser);//return;
 						if($details->save())
 						{
 							return $this->redirect(['personaldetail/update', 'model'=>$details ,'user' => $user,'id'=>$details->idpersonalDetail]);

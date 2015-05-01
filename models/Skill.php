@@ -63,18 +63,38 @@ class Skill extends \yii\db\ActiveRecord
         //return $this->hasMany(UserSkill::className(), ['idskill' => 'idskill']);
     }
 	
-	public function addSkill()
+	public function addSkills($skillsLinkedIn, $user)
 	{
-		$model = $this->findOne(['title'=>$this->title]);
+		foreach($skillsLinkedIn as $key=>$skill)
+		{
+			$temp = (array)$skill;
+			$temp = (array)$temp['skill'];
+			$title = $temp['name'];
+			$model = new Skill();
+			$result = $model->findOne(['title'=>$title]);//$this->title
+			if($result!==null)
+			{
+				$result->link('users',$user);
+			}
+			else{
+				$model->title = $title;
+				if($model->save())
+				{
+					$model->link('users',$user);
+				}
+				
+			}
+		}
+		/*$model = $this->findOne(['title'=>$this->title]);
 		if($model!=null)
 		{
 			return $model;
-			/*$this->idskill = $model->idskill;
-			$this->title = $model->title;*/
+			$this->idskill = $model->idskill;
+			$this->title = $model->title;
 		}
 		else{
 			$this->save();
-		}
+		}*/
 	}
 	
 	/*public function beforeSave($insert)
