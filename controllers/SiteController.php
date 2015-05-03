@@ -114,7 +114,8 @@ class SiteController extends Controller
 	public function successCallback($client)
     {
 		$attributes = $client->getUserAttributes();
-		var_dump($attributes['location']);return;
+		//Yii::$app->session->set('picUrl',$attributes['three-past-positions']);
+		var_dump($attributes['industry']);return;
         $auth = User::find()->where([
             'linkedInID' => $attributes['id'],
         ])->one();
@@ -130,6 +131,7 @@ class SiteController extends Controller
                 } else {
 					$details = new Personaldetail([
 						'email' => $attributes['email'],
+						'pictureUrl' => $attributes['picture-urls']['picture-url']
 					]);
 					
                     $user = new User([
@@ -146,6 +148,12 @@ class SiteController extends Controller
 						$educationCount = $attributes['educations']['@attributes']['total'];
 						$education = new \app\models\Education;
 						$education->addEducations($attributes['educations']['education'],(int)$educationCount,$user->iduser);//return;
+						$location = new \app\models\Location;
+						$location->addLocation($attributes['location'],$user);
+						$job = new \app\models\Job;
+						$job->addJobs($attributes['three-past-positions'],$attributes['three-current-positions'],$user);
+						$industry = new \app\models\Industry;
+						$industry->addIndustry($attributes['industry'],$user);
 						if($details->save())
 						{
 							return $this->redirect(['personaldetail/update', 'model'=>$details ,'user' => $user,'id'=>$details->idpersonalDetail]);

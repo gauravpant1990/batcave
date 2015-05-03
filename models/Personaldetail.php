@@ -36,7 +36,8 @@ class Personaldetail extends \yii\db\ActiveRecord
             [['iduser'], 'required'],
             [['iduser'], 'integer'],
             [['ctc', 'monthlySalary', 'phoneNumber'], 'number'],
-            [['email', 'currency'], 'string', 'max' => 45],
+            [['currency'], 'string', 'max' => 45],
+			[['email','pictureUrl'], 'string', 'max' => 200],
             [['iduser'], 'unique']
         ];
     }
@@ -54,6 +55,7 @@ class Personaldetail extends \yii\db\ActiveRecord
             'monthlySalary' => Yii::t('app', 'Monthly Salary'),
             'currency' => Yii::t('app', 'Currency'),
             'phoneNumber' => Yii::t('app', 'Phone Number'),
+			'pictureUrl' => Yii::t('app', 'Picture URL'),
         ];
     }
 

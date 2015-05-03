@@ -99,7 +99,11 @@ class LinkedIn extends OAuth2
 			'num_connections',
 			'skills',
 			'educations',
-			'location'
+			'location',
+			'three-current-positions',
+			'picture-urls::(original)',
+			'three-past-positions',
+			'industry'
         ];
 
         return $this->api('people/~:(' . implode(',', $attributeNames) . ')', 'GET');
