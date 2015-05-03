@@ -51,4 +51,18 @@ class School extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Education::className(), ['idschool' => 'idschool']);
     }
+	
+	public function addSchool()
+	{
+		$model = $this->findOne(['title'=>$this->title]);
+		if($model!=null)
+		{
+			//return $model;
+			$this->idschool = $model->idschool;
+			$this->title = $model->title;
+		}
+		else{
+			$this->save();
+		}
+	}
 }

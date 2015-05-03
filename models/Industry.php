@@ -47,8 +47,24 @@ class Industry extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUserIndustries()
+    public function getUsers()
     {
-        return $this->hasMany(UserIndustry::className(), ['idindustry' => 'idindustry']);
+        //return $this->hasMany(UserIndustry::className(), ['idindustry' => 'idindustry']);
+		return $this->hasMany(User::className(), ['iduser' => 'iduser'])->viaTable('user_industry', ['idindustry' => 'idindustry']);
     }
+	
+	public function addIndustry($industry)
+	{
+		$model = $this->findOne(['title'=>$industry]);
+		$this->title = $industry;
+		if($model!=null)
+		{
+			$this->isNewRecord = false;
+			$this->idindustry = $model->idindustry;
+		}
+		else{
+			$this->save();
+		}
+		$this->link('users',$user);
+	}
 }

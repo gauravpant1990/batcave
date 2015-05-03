@@ -61,4 +61,17 @@ class Designation extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Job::className(), ['iddesignation' => 'iddesignation']);
     }
+	
+	public function addDesignation($jobTitle)
+	{
+		$model = $this->findOne(['title'=>$jobTitle]);
+		$this->title = $jobTitle;
+		if($model!=null)
+		{
+			$this->iddesignation = $model->iddesignation;
+		}
+		else{
+			$this->save();
+		}
+	}
 }

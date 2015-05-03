@@ -60,4 +60,17 @@ class Company extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Job::className(), ['idcompany' => 'idcompany']);
     }
+	
+	public function addCompany($company)
+	{
+		$model = $this->findOne(['title'=>$company]);
+		$this->title = $company;
+		if($model!=null)
+		{
+			$this->idcompany = $model->idcompany;
+		}
+		else{
+			$this->save();
+		}
+	}
 }

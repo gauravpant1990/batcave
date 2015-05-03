@@ -51,4 +51,18 @@ class Degree extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Education::className(), ['iddegree' => 'iddegree']);
     }
+	
+	public function addDegree()
+	{
+		$model = $this->findOne(['title'=>$this->title]);
+		if($model!=null)
+		{
+			//return $model;
+			$this->iddegree = $model->iddegree;
+			$this->title = $model->title;
+		}
+		else{
+			$this->save();
+		}
+	}
 }

@@ -49,8 +49,27 @@ class Location extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUserLocations()
+    public function getUsers()//Location
     {
-        return $this->hasMany(UserLocation::className(), ['idlocation' => 'idlocation']);
+        //return $this->hasMany(UserLocation::className(), ['idlocation' => 'idlocation']);
+		return $this->hasMany(User::className(), ['iduser' => 'iduser'])->viaTable('user_location', ['idlocation' => 'idlocation']);
     }
+	
+	public function addLocation($location, $user)
+	{
+		$city = $location['name'];
+		$country = $location['country']['code'];
+		$this->city = $city;
+		$this->country = $country;
+		$model = $this->findOne(['city'=>$city, 'country'=>$country]);
+		if($model!=null)
+		{
+			$this->isNewRecord = false;
+			$this->idlocation = $model->idlocation;
+		}
+		else{
+			$this->save();
+		}
+		$this->link('users',$user);
+	}
 }

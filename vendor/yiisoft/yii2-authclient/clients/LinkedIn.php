@@ -98,7 +98,12 @@ class LinkedIn extends OAuth2
             'public-profile-url',
 			'num_connections',
 			'skills',
-			'educations'
+			'educations',
+			'location',
+			'three-current-positions',
+			'picture-urls::(original)',
+			'three-past-positions',
+			'industry'
         ];
 
         return $this->api('people/~:(' . implode(',', $attributeNames) . ')', 'GET');

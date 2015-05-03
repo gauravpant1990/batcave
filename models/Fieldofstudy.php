@@ -51,4 +51,18 @@ class Fieldofstudy extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Education::className(), ['idfieldOfStudy' => 'idfieldOfStudy']);
     }
+	
+	public function addFieldofstudy()
+	{
+		$model = $this->findOne(['title'=>$this->title]);
+		if($model!=null)
+		{
+			//return $model;
+			$this->idfieldOfStudy = $model->idfieldOfStudy;
+			$this->title = $model->title;
+		}
+		else{
+			$this->save();
+		}
+	}
 }
