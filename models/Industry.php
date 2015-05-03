@@ -53,7 +53,7 @@ class Industry extends \yii\db\ActiveRecord
 		return $this->hasMany(User::className(), ['iduser' => 'iduser'])->viaTable('user_industry', ['idindustry' => 'idindustry']);
     }
 	
-	public function addIndustry($industry)
+	public function addIndustry($industry, $user)
 	{
 		$model = $this->findOne(['title'=>$industry]);
 		$this->title = $industry;
