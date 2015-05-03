@@ -115,7 +115,7 @@ class SiteController extends Controller
     {
 		$attributes = $client->getUserAttributes();
 		//Yii::$app->session->set('picUrl',$attributes['three-past-positions']);
-		var_dump($attributes['industry']);return;
+		//var_dump($attributes['industry']);return;
         $auth = User::find()->where([
             'linkedInID' => $attributes['id'],
         ])->one();
