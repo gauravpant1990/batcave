@@ -65,8 +65,8 @@ class LinkedIn extends OAuth2
         parent::init();
         if ($this->scope === null) {
             $this->scope = implode(' ', [
-				'r_fullprofile',
-                //'r_basicprofile',
+				//'r_fullprofile',
+                'r_basicprofile',
                 'r_emailaddress',
             ]);
         }
