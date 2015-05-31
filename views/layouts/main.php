@@ -98,7 +98,7 @@ AppAsset::register($this);
         </div>
     </header>-->
 	
-	<div style = "display: none; height: 500px"></div>
+	<div id="results" ></div><!--style = "display: none; height: 500px"-->
 	
     <section class="bg-primary" id="about">
         <div class="container">

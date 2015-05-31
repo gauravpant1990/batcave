@@ -118,8 +118,11 @@ class SiteController extends Controller
 		//var_dump($attributes['industry']);return;
         $auth = User::find()->where([
             'linkedInID' => $attributes['id'],
-        ])->one();
-        Yii::$app->session->set('linkedInAttributes',($attributes['educations']['@attributes']['total']));
+        ])->one();echo "<pre>";
+		var_dump($attributes['location']);
+		var_dump($attributes['skills']);
+		var_dump($attributes['educations']);return;
+        //Yii::$app->session->set('linkedInAttributes',($attributes['educations']['@attributes']['total']));
         if (Yii::$app->user->isGuest) {
             if ($auth) { // login
                 Yii::$app->user->login($auth,3600*24*30);

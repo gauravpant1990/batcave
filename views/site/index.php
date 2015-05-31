@@ -12,7 +12,18 @@ $model = new \app\models\Data;
 <?php echo Html::input('text','query');?>
 	</div>
 	<p>Example: IIM, McKinsey, Analyst, or a combination.</p>
-<?php echo Html::button('Search', ['class'=>"btn btn-primary btn-xl page-scroll"] );?>
+<?php echo Html::button('Search', ['class'=>"btn btn-primary btn-xl page-scroll",'onclick'=>"
+$.ajax({
+    type     :'POST',
+    cache    : false,
+	datatype : 'text',
+	data     : $('input:text[name=query]').serialize(),
+    url  : 'advancedsearch/search',
+    success  : function(response) {
+       $('#results').html(response);
+    }
+    });return false;
+"] );?>
 </div>
     <!--<div class="jumbotron">
     <h1>DEMOCRATIZING SALARY INFORMATION</h1>-->
