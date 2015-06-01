@@ -119,7 +119,7 @@ class SiteController extends Controller
         $auth = User::find()->where([
             'linkedInID' => $attributes['id'],
         ])->one();
-        Yii::$app->session->set('linkedInAttributes',($attributes['educations']['@attributes']['total']));
+        //Yii::$app->session->set('linkedInAttributes',($attributes['educations']['@attributes']['total']));
         if (Yii::$app->user->isGuest) {
             if ($auth) { // login
                 Yii::$app->user->login($auth,3600*24*30);
@@ -143,11 +143,11 @@ class SiteController extends Controller
                     ]);
                     if ($user->save()) {
 						$details->link('user',$user);
-						$skills = new \app\models\Skill;
-						$skills->addSkills($attributes['skills']['skill'], $user);
-						$educationCount = $attributes['educations']['@attributes']['total'];
-						$education = new \app\models\Education;
-						$education->addEducations($attributes['educations']['education'],(int)$educationCount,$user->iduser);//return;
+						//$skills = new \app\models\Skill;
+						//$skills->addSkills($attributes['skills']['skill'], $user);
+						//$educationCount = $attributes['educations']['@attributes']['total'];
+						//$education = new \app\models\Education;
+						//$education->addEducations($attributes['educations']['education'],(int)$educationCount,$user->iduser);//return;
 						$location = new \app\models\Location;
 						$location->addLocation($attributes['location'],$user);
 						$job = new \app\models\Job;

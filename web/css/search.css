@@ -1,0 +1,33 @@
+#search{padding:3%;font-family:'Merriweather', Georgia, serif;border:none;padding-top:5em;}
+
+#search_container{width:96%;}
+
+/*table th, table td{border:none;}*/
+	table{border-collapse:collapse;}
+	#all{display:inlineb-block; margin-left:2em;color:blue;}
+	#all:hover{text-decoration:underline;cursor:pointer;}
+	div.pager {
+    text-align: center;
+    margin: -2.5em 0 1em;
+	float:right;
+}
+
+div.pager span {
+    display: inline-block;
+    width: 1.8em;
+    height: 1.8em;
+    line-height: 1.8;
+    text-align: center;
+    cursor: pointer;
+    background: #D6D6D6;
+    color: #fff;
+    margin-right: 0.5em;
+	-webkit-border-radius: 2px;
+-moz-border-radius: 2px;
+border-radius: 2px;
+}
+
+div.pager span.active {
+    background: yellow;color:black;
+}
+div.pager span:hover{background-color:yellow;color:gray;}
