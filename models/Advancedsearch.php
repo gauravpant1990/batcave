@@ -107,7 +107,8 @@ class Advancedsearch extends \yii\db\ActiveRecord
 	{
 		$connection = Yii::$app->db;
 		
-		$term = trim(mysql_real_escape_string($_POST['query']));
+		//$term = trim(mysql_real_escape_string($_POST['query']));
+		$term= \Yii::$app->db->quoteValue($_POST['query']);
 		$splitted_terms = $this->processNeedle($term);
 		//$sql = "INSERT INTO `user_searches`(search_term,userid) values('$term', '{$_SESSION['linked_userid']}')";
 		//mysql_query($sql);
