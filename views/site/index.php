@@ -7,23 +7,38 @@ $model = new \app\models\Data;
 ?>
 <!--<div class="site-index">-->
 <div>
+<form id="queryForm" action="" onsubmit="loadData();return false;">
 	<h1>Democratising Salary Information</h1>
 	<div class="search-box">	
-<?php echo Html::input('text','query');?>
+<?php echo Html::input('text','query');
+	echo Html::input('hidden','page_num');
+?>
 	</div>
 	<p>Example: IIM, McKinsey, Analyst, or a combination.</p>
-<?php echo Html::button('Search', ['class'=>"btn btn-primary btn-xl page-scroll",'onclick'=>"
-$.ajax({
-    type     :'POST',
-    cache    : false,
-	datatype : 'text',
-	data     : $('input:text[name=query]').serialize(),
-    url  : 'advancedsearch/search',
-    success  : function(response) {
-       $('#results').html(response);
-    }
-    });return false;
-"] );?>
+<?php echo Html::submitButton('Search', ['class'=>"btn btn-primary btn-xl page-scroll"] );
+?>
+</form>
+<script>
+
+function loadData(){
+	$.ajax({
+		type     :'POST',
+		cache    : false,
+		datatype : 'text',
+		data     : $('#queryForm').serialize(),//input:text[name=query]
+		url  : 'advancedsearch/search',
+		success  : function(response) {
+			$('html').scrollTop($('#results').offset().top-50);
+			$('#results').html(response);
+		}
+    });
+}
+function setPage(element){
+	var page_num = element.html();
+	$('input[name="page_num"]').val(page_num);
+	loadData();
+}
+</script>
 </div>
     <!--<div class="jumbotron">
     <h1>DEMOCRATIZING SALARY INFORMATION</h1>-->

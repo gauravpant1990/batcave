@@ -7,7 +7,7 @@ if (count($data) == 0) {
 			exit;
 		} else {
 			//echo "<span class='search_text'>" . $num_all . " results found.</span>";
-			print "<table border cellpadding=7 width=100% class='paginated'>";
+			print "<table border cellpadding=7 width=100% class='paginated table table-bordered table-striped'>";
 			print "<tr class='header'>";
 			print "<th >Company:</th>";//width=12%
 			print "<th  >Designation:</th>";//width=12%
