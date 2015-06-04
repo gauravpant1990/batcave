@@ -109,7 +109,7 @@ class Advancedsearch extends \yii\db\ActiveRecord
 		
 		$term = trim(mysql_escape_string($_POST['query']));
 		//$term= \Yii::$app->db->quoteValue($_POST['query']);
-		$splitted_terms = explode(" ", $term);//$this->processNeedle($term);
+		$splitted_terms = $this->processNeedle($term);
 		//$sql = "INSERT INTO `user_searches`(search_term,userid) values('$term', '{$_SESSION['linked_userid']}')";
 		//mysql_query($sql);
 
@@ -128,8 +128,8 @@ class Advancedsearch extends \yii\db\ActiveRecord
 		} else {
 		print '<span class="search_text">You searched for: </span><span class="search_term">"' .
 			$term . '"</span><br/><br/>';
-		$sqlCount = "SELECT count(*) FROM `advancedSearch` WHERE Concat(comp, edu) like '%";
-		$sql = "SELECT * FROM `advancedSearch` WHERE Concat(comp, edu) like '%";
+		$sqlCount = "SELECT count(*) FROM `advancedsearch` WHERE Concat(comp, edu) like '%";
+		$sql = "SELECT * FROM `advancedsearch` WHERE Concat(comp, edu) like '%";
 		$like_where_clause = implode("%' AND Concat(comp, edu) like '%",$splitted_terms);
 		$sqlCount = $sqlCount.$like_where_clause."%'";
 		$sql = $sql.$like_where_clause."%'";
