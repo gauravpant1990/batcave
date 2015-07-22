@@ -131,16 +131,18 @@ class Advancedsearch extends \yii\db\ActiveRecord
 		$sqlCount = "SELECT count(*) FROM `advancedsearch` WHERE Concat(comp, edu) like '%";
 		$sql = "SELECT * FROM `advancedsearch` WHERE Concat(comp, edu) like '%";
 		$like_where_clause = implode("%' AND Concat(comp, edu) like '%",$splitted_terms);
-		$sqlCount = $sqlCount.$like_where_clause."%'";
+		$sqlCount = $sqlCount.$like_where_clause."%' LIMIT 100";
 		$sql = $sql.$like_where_clause."%'";
 		$modelCount = $connection->createCommand($sqlCount);
 		
 		$count = $modelCount->queryAll();
 		$num_all = (int)$count[0]["count(*)"];
+		if($num_all>100) $num_all = 100;
 		
 		$page = ($_POST['page_num']!='')?((int)$_POST['page_num']):1;
 		$search_per_page = 10;
 		$search_start_from = ($page-1)*$search_per_page;
+		//var_dump($search_start_from);
 		$total_pages_less_one = (int)($num_all/$search_per_page);
 		if($total_pages_less_one > 0)
 		{
@@ -172,7 +174,7 @@ class Advancedsearch extends \yii\db\ActiveRecord
 		//echo @mysql_ping() ? 'true' : 'false';
 
 		if (!$data) {
-			echo "Could not successfully run query ($sql) from DB: " . mysql_error();
+			echo "Could not successfully run your query" ;//. mysql_error()
 			exit;
 		}/**/
 		return $data;
