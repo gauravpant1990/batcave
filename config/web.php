@@ -4,7 +4,7 @@ $params = require(__DIR__ . '/params.php');
 
 $config = [
     'id' => 'basic',
-	'name' => 'Kitna Deti Hai',
+	'name' => '6 figures',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'components' => [
