@@ -4,6 +4,7 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 $this->title = 'My Yii Application';
 $model = new \app\models\Data;
+/*test comment*/
 ?>
 <!--<div class="site-index">-->
 <div>
