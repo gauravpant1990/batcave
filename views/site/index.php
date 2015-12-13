@@ -8,7 +8,7 @@ $model = new \app\models\Data;
 <!--<div class="site-index">-->
 <div>
 <form id="queryForm" action="" onsubmit="loadData();return false;">
-	<h1>Democratising Salary Information</h1>
+	<h1>Democratising Salaries</h1>
 	<div class="search-box">	
 <?php echo Html::input('text','query');
 	echo Html::input('hidden','page_num');
@@ -28,7 +28,8 @@ function loadData(){
 		data     : $('#queryForm').serialize(),//input:text[name=query]
 		url  : 'advancedsearch/search',
 		success  : function(response) {
-			$('html').scrollTop($('#results').offset().top-50);
+			//$('html').scrollTop($('#results').offset().top-50);
+			$("html,body").animate({ scrollTop: $('#results').offset().top-50 }, "slow");
 			$('#results').html(response);
 		}
     });

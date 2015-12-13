@@ -2,6 +2,10 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 /* @var $this yii\web\View */
+if ($data == '0') {
+			echo "<span class='search_text'>Please Login to continue.</span>";
+			exit;
+		}
 if (count($data) == 0) {
 			echo "<span class='search_text'>We have your query, we will be back the data soon.</span>";
 			exit;

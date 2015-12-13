@@ -34,7 +34,7 @@ class Advancedsearch extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'advancedsearch';
+        return 'advancedSearch';
     }
 
     /**
@@ -127,7 +127,7 @@ class Advancedsearch extends \yii\db\ActiveRecord
 		}
 		} else {
 		print '<span class="search_text">You searched for: </span><span class="search_term">"' .
-			$term . '"</span><br/><br/>';
+			$term . '"</span><br/><br/';
 		$sqlCount = "SELECT count(*) FROM `advancedsearch` WHERE Concat(comp, edu) like '%";
 		$sql = "SELECT * FROM `advancedsearch` WHERE Concat(comp, edu) like '%";
 		$like_where_clause = implode("%' AND Concat(comp, edu) like '%",$splitted_terms);
@@ -140,6 +140,14 @@ class Advancedsearch extends \yii\db\ActiveRecord
 		if($num_all>100) $num_all = 100;
 		
 		$page = ($_POST['page_num']!='')?((int)$_POST['page_num']):1;
+		if($page==1){
+			$userSearch = new UserSearch([
+                                'iduser' =>(Yii::$app->user->isGuest==true)?9:Yii::$app->user->id,
+                                'query' => $query,
+                                'rowsReturned' => $num_all
+                        ]);
+                        $userSearch->save();
+		}
 		$search_per_page = 10;
 		$search_start_from = ($page-1)*$search_per_page;
 		//var_dump($search_start_from);
@@ -158,15 +166,16 @@ class Advancedsearch extends \yii\db\ActiveRecord
 			echo "<div class='pager'>";
 			for($i=1;$i<=$total_pages;$i++)
 			{
-				$span = "<span onclick='setPage($(this))' class='page-number clickable";
+				$span = "<button onclick='setPage($(this))' class='page-number clickable";
 				$span.=($i == $page)?" active'>":"'>";
-				$span.=$i."</span>";
+				$span.=$i."</button>";
 				echo $span;
 			}
 			echo "</div>";
 		}
 //var_dump($search_start_from,$search_per_page);return;
 		$sql = $sql." LIMIT $search_start_from,$search_per_page";
+		$page = 1;
 		//        $num_all = mysql_num_rows(mysql_query($sql));
 		//$sql = "SELECT * FROM `pay_slips` WHERE Concat(image_path, email) like \'%001%\' LIMIT 0, 30 ";
 		$model = $connection->createCommand($sql);

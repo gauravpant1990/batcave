@@ -28,3 +28,6 @@ phpunit.phar
 
 #composer.lock
 composer.lock
+*.swp
+
+config/db.php

@@ -14,7 +14,7 @@ AppAsset::register($this);
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<?= Html::csrfMetaTags() ?>
-    <title><?= Html::encode(Yii::$app->name) ?></title>
+    <title><?= Html::encode((strpos($_SERVER['HTTP_HOST'],"6figr")!==false ? "6 figure" : "Kitna deti hai")); ?></title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -40,14 +40,23 @@ AppAsset::register($this);
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
+  ga('create', 'UA-51952369-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
 </head>
 
 <body id="page-top">
 <?php $this->beginBody() ?>
 <?php
             NavBar::begin([
-                'brandLabel' => Yii::$app->name,
+                'brandLabel' => (strpos($_SERVER['HTTP_HOST'],"6figr")!==false ? "6 FIGURE" : "KITNA DETI HAI"),//Yii::$app->name,
                 'brandUrl' => "#page-top",//Yii::$app->homeUrl,
 				'brandOptions' => ['class'=>'page-scroll'],
                 'options' => [
@@ -131,7 +140,7 @@ AppAsset::register($this);
             <div class="row">
 				<div class = "col-lg-10 col-lg-offset-1 text-center">
 					<p>We won't post anything on your behalf.<br>Access to a data set with thousands of detailed Salary values.<br>We can suggest opportunities that exactly match your profile with detailed salary values!</p>
-					<a><img src="img/linkedin.png"></img></a>
+					<a href="/site/auth?authclient=linkedin"><img src="img/linkedin.png"></img></a>
 				</div>
             </div>
         </div>
@@ -287,7 +296,7 @@ AppAsset::register($this);
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-8 col-lg-offset-2 text-center">
-					<p> Copyright © 2013-2014, VinCi Labs. All Rights Reserved. Your use of this service is subject to our Terms of Use and Privacy Policy. </p>
+					<p> Copyright © 2014-2015, VinCi Labs. All Rights Reserved. Your use of this service is subject to our Terms of Use and Privacy Policy. </p>
 				</div>
 			</div>
 		</div>
