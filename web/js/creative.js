@@ -23,9 +23,14 @@
     })
 
     // Closes the Responsive Menu on Menu Item Click
-    $('.navbar-collapse ul li a').click(function() {
+    /*$('.navbar-collapse ul li a').click(function() {
         $('.navbar-toggle:visible').click();
     });
+    $(".navbar-toggle").click(function(){
+        $("#mainNav-collapse").hasClass("in")?
+            $("#mainNav-collapse").removeClass("in"):$("#mainNav-collapse").addClass("in")
+        //return false;
+    });*/
 
     // Fit Text Plugin for Main Header
     $("h1").fitText(

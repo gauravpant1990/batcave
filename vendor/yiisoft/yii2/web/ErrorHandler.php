@@ -69,7 +69,12 @@ class ErrorHandler extends \yii\base\ErrorHandler
     {
         if (Yii::$app->has('response')) {
             $response = Yii::$app->getResponse();
+            // reset parameters of response to avoid interference with partially created response data
+            // in case the error occurred while sending the response.
             $response->isSent = false;
+            $response->stream = null;
+            $response->data = null;
+            $response->content = null;
         } else {
             $response = new Response();
         }
@@ -261,11 +266,11 @@ class ErrorHandler extends \yii\base\ErrorHandler
         if ($file !== null && $line !== null) {
             $line--; // adjust line number from one-based to zero-based
             $lines = @file($file);
-            if ($line < 0 || $lines === false || ($lineCount = count($lines)) < $line + 1) {
+            if ($line < 0 || $lines === false || ($lineCount = count($lines)) < $line) {
                 return '';
             }
 
-            $half = (int) (($index == 1 ? $this->maxSourceLines : $this->maxTraceSourceLines) / 2);
+            $half = (int) (($index === 1 ? $this->maxSourceLines : $this->maxTraceSourceLines) / 2);
             $begin = $line - $half > 0 ? $line - $half : 0;
             $end = $line + $half < $lineCount ? $line + $half : $lineCount - 1;
         }
@@ -371,8 +376,8 @@ class ErrorHandler extends \yii\base\ErrorHandler
 
         foreach ($args as $key => $value) {
             $count++;
-            if($count>=5) {
-                if($count>5) {
+            if ($count>=5) {
+                if ($count>5) {
                     unset($args[$key]);
                 } else {
                     $args[$key] = '...';
@@ -396,7 +401,7 @@ class ErrorHandler extends \yii\base\ErrorHandler
                 $args[$key] = '[' . $this->argumentsToString($value) . ']';
             } elseif ($value === null) {
                 $args[$key] = '<span class="keyword">null</span>';
-            } elseif(is_resource($value)) {
+            } elseif (is_resource($value)) {
                 $args[$key] = '<span class="keyword">resource</span>';
             } else {
                 $args[$key] = '<span class="number">' . $value . '</span>';

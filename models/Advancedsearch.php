@@ -127,12 +127,12 @@ class Advancedsearch extends \yii\db\ActiveRecord
 		}
 		} else {
 		print '<span class="search_text">You searched for: </span><span class="search_term">"' .
-			$term . '"</span><br/><br/';
-		$sqlCount = "SELECT count(*) FROM `advancedsearch` WHERE Concat(comp, edu) like '%";
-		$sql = "SELECT * FROM `advancedsearch` WHERE Concat(comp, edu) like '%";
+			$term . '"</span><br/><br/>';
+		$sqlCount = "SELECT count(*) FROM `advancedsearch` WHERE Concat(comp, desig, edu) like '%";
+		$sql = "SELECT * FROM `advancedsearch` WHERE Concat(comp, desig, edu) like '%";
 		$like_where_clause = implode("%' AND Concat(comp, edu) like '%",$splitted_terms);
 		$sqlCount = $sqlCount.$like_where_clause."%' LIMIT 100";
-		$sql = $sql.$like_where_clause."%'";
+		$sql = $sql.$like_where_clause."%' order by rand()";
 		$modelCount = $connection->createCommand($sqlCount);
 		
 		$count = $modelCount->queryAll();

@@ -31,3 +31,4 @@ composer.lock
 *.swp
 
 config/db.php
+config/db.php

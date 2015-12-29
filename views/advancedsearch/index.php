@@ -15,7 +15,7 @@ if (count($data) == 0) {
 			print "<tr class='header'>";
 			print "<th >Company:</th>";//width=12%
 			print "<th  >Designation:</th>";//width=12%
-			print "<th >Salary:</th>";//width=8%
+			print "<th >Annual Salary:</th>";//width=8%
 			print "<th >Experience:</th>";//width=8%
 			print "<th >Year Passed<br/> Out:</th>";//width=8%
 			print "<th >Education:</th>";//width=8%

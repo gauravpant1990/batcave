@@ -55,6 +55,17 @@ class LinkedIn extends OAuth2
      * @inheritdoc
      */
     public $apiBaseUrl = 'https://api.linkedin.com/v1';
+    /**
+     * @var array list of attribute names, which should be requested from API to initialize user attributes.
+     * @since 2.0.4
+     */
+    public $attributeNames = [
+        'id',
+        'email-address',
+        'first-name',
+        'last-name',
+        'public-profile-url',
+    ];
 
 
     /**
@@ -65,7 +76,6 @@ class LinkedIn extends OAuth2
         parent::init();
         if ($this->scope === null) {
             $this->scope = implode(' ', [
-				//'r_fullprofile',
                 'r_basicprofile',
                 'r_emailaddress',
             ]);
@@ -81,7 +91,6 @@ class LinkedIn extends OAuth2
             'email' => 'email-address',
             'first_name' => 'first-name',
             'last_name' => 'last-name',
-			//'skills' => 'skills',
         ];
     }
 
@@ -90,23 +99,7 @@ class LinkedIn extends OAuth2
      */
     protected function initUserAttributes()
     {
-        $attributeNames = [
-            'id',
-            'email-address',
-            'first-name',
-            'last-name',
-            'public-profile-url',
-			'num_connections',
-			'skills',
-			'educations',
-			'location',
-			'three-current-positions',
-			'picture-urls::(original)',
-			'three-past-positions',
-			'industry'
-        ];
-
-        return $this->api('people/~:(' . implode(',', $attributeNames) . ')', 'GET');
+        return $this->api('people/~:(' . implode(',', $this->attributeNames) . ')', 'GET');
     }
 
     /**
